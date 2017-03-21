@@ -1,0 +1,19 @@
+{
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "jquery.flowchart": "^1.1.3",
+    "jquery-ui": "^1.12.1",
+    "bootstrap-css-only": "^3.3.7"
+  },
+  "name": "data-mashup",
+  "version": "0.0.0",
+  "author": "anonymous node/sails user",
+  "private": true
+}
