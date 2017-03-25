@@ -1,17 +1,17 @@
 <nav class="side-nav bg-dark">
-		<h2>Projects <a href="" title="new project"><div class="pull-right glyphicon glyphicon-plus"></div></a></h2>
+		<h2>Projects <a href="#" id="project-new" title="new project"><div class="pull-right glyphicon glyphicon-plus"></div></a></h2>
 
-		<ul class="nav">
-			<li><a href="">Project 1</a></li>
+		<ul class="nav" id="project-list">
+			
 		</ul>
 </nav>
 <div class="container-fluid has-side-nav">
 	<div class="row padding">
-		<div class="panel panel-primary">
-			<button onclick="app.addNode(dataTypes.STRING)">Add string</button>
+		<div class="panel panel-primary" id="toolbox">
+			
 		</div>
 		<div class="panel panel-primary fill">
-			<div class="panel-heading">Project definition</div>
+			<div class="panel-heading"><input id="project-name"/> <button class='btn btn-success' onclick="app.save()">Save</button></div>
 			<div class="panel-body">
 				<div id="flowchart" class="fill"></div>
 			</div>

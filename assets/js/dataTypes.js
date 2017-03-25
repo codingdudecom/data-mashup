@@ -1,17 +1,39 @@
 dataTypes = {
 	"STRING":{
-        top: 60,
-        left: 500,
         properties: {
           title: 'String',
+          value:"text",
           inputs: {
-            input_1: {
-              label: 'Input 1',
-            }
           },
           outputs: {
             output_1: {
-              label: 'Output 1',
+              label: 'Output',
+            }
+          }
+        }
+      },
+  "NUMBER":{
+        properties: {
+          title: 'Number',
+          value:0,
+          inputs: {
+          },
+          outputs: {
+            output_1: {
+              label: 'Output',
+            }
+          }
+        }
+      },
+  "OBJECT":{
+        properties: {
+          title: 'Object',
+          value:{},
+          inputs: {
+          },
+          outputs: {
+            output_1: {
+              label: 'Output',
             }
           }
         }

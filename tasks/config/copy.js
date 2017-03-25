@@ -37,7 +37,16 @@ module.exports = function(grunt) {
         src: ['**/*'],
         dest: 'www'
       }]
-    }
+    },
+    fonts: {
+     files: [
+     {
+      expand: true,
+      flatten: true,
+      src: ['.tmp/public/vendor/**/*.eot','.tmp/public/vendor/**/*.svg','.tmp/public/vendor/**/*.ttf','.tmp/public/vendor/**/*.woff','.tmp/public/vendor/**/*.woff2'],
+      dest: '.tmp/public/vendor/fonts'
+     }]
+    }    
   });
 
   grunt.loadNpmTasks('grunt-contrib-copy');

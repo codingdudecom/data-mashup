@@ -13,12 +13,12 @@ module.exports = function(grunt) {
 		install: {
 			options: {
 				targetDir: './assets/vendor',
-				layout: 'byType',
+				layout: 'byComponent',//'byType',
 				install: true,
-				verbose: false,
+				verbose: true,
 				cleanTargetDir: true,
-				cleanBowerDir: true,
-				bowerOptions: {}
+				cleanBowerDir: false,
+				bowerOptions: {	}
 			}
 		}
 	});

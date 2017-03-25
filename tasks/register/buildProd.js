@@ -21,9 +21,11 @@ module.exports = function(grunt) {
     'concat',
     'uglify',
     'cssmin',
+
     'linkAssetsBuildProd',
     'clean:build',
-    'copy:build'
+    'copy:build',
+    'copy:fonts'
   ]);
 };
 

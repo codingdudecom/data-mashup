@@ -29,6 +29,9 @@
 //
 // etc.
 
+@import 'myflowchart.less';
+
+
 @side-nav-width:250px;
 @dark-color:#444;
 @padding:8px;
@@ -62,5 +65,16 @@
 
 	& .nav > li > a:hover, & .nav > li > a:focus{
 		background-color:darken(@menu-color,20%);
+	}
+}
+
+input#project-name{
+	background-color:transparent;
+	border:none;
+	outline:none;
+	padding:0 8px;
+
+	&:focus,&:hover{
+		border-bottom:2px solid white;
 	}
 }

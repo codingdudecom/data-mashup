@@ -58,3 +58,10 @@ try {
 
 // Start server
 sails.lift(rc('sails'));
+
+// require('sails').lift({
+//   hooks: {
+//     sockets: false,
+//     pubsub: false
+//   }
+// }, function doneLifting (err) { if (err) throw err; });

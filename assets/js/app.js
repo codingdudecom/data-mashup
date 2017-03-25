@@ -1,25 +1,107 @@
 var idx = 1;
+var $flowchart = $('#flowchart');
 var app = {
 	start:function(){
-		var $flowchart = $('#flowchart');
-    	var $container = $flowchart.parent();
-		var cx = $flowchart.width() / 2;
-    	var cy = $flowchart.height() / 2;
-    	console.log(cx+":"+cy)
-    	var possibleZooms = [0.5, 0.75, 1, 2, 3];
-    	var currentZoom = 2;
-    	
-    $flowchart.flowchart({});
-    	//.panzoom();
-    	// Centering panzoom
-    	//$flowchart.panzoom('pan', -cx + $container.width() / 2, -cy + $container.height() / 2);
-		
+		var projectName = "New project";
+		$("#project-name").val(projectName);
+		this.initProjectList();
+
+		$flowchart.myflowchart({
+		});
+
+		var $draggable_ops = $(".draggable_op");
+		$draggable_ops.draggable({
+			cursor: "move",
+	        opacity: 0.7,
+	        
+	        helper: 'clone',
+	        appendTo: 'body',
+	        zIndex: 1000,
+	        helper:function(e){
+	        	var $this = $(this);
+          		var data = dataTypes[$this.data("type")];
+          		
+	        	return $flowchart.myflowchart('getOperatorElement', data);
+	        },
+	        stop: function(e, ui) {
+	        	var flowchartOffset = $flowchart.offset();
+				var elOffset = ui.offset;
+                var relativeLeft = elOffset.left - flowchartOffset.left;
+                var relativeTop = elOffset.top - flowchartOffset.top;
+                
+	        	var $this = $(this);
+          		var data = $.extend({},dataTypes[$this.data("type")]);
+                data.left = relativeLeft;
+                data.top = relativeTop;   
+                data.id = "id"+idx++;
+	        	$flowchart.myflowchart('addOperator', data);
+	        }
+		});
 	},
-	addNode:function(data){
-		$("#flowchart").flowchart('createOperator', "id"+idx++, $.extend({},data));
+	initProjectList:function(){
+		var self = this;
+		$("#project-list").html("");
+		app.ProjectsCtrl.list(function(projects){
+			$.each(projects,function(idx,project){
+				$("#project-list")
+					.append("<li><a data-id='"+project.id+"' href='#'>"+project.name+"</a></li>");
+			});
+			$("#project-list a")
+				.click(function(evt){
+					evt.preventDefault();
+					self.load($(evt.currentTarget).data("id"));
+				});
+		});
+		$("#project-new").click(function(evt) {
+			evt.preventDefault();
+			self.new();
+		});
+	},
+	save:function(){
+		var self = this;
+		var data = $flowchart.myflowchart('getData');
+		var projectName = $("#project-name").val();
+		
+		app.ProjectsCtrl.save($flowchart.data("id"),projectName,data,function(project){
+			$flowchart.data("id",project.id);
+			$("#project-list [data-id='"+project.id+"']").text(projectName);
+			self.initProjectList();
+		});
+	},
+	load:function(id){
+		$flowchart.myflowchart('setData',{});
+		app.ProjectsCtrl.load(id,function(project){
+			$flowchart.data("id",project.id);
+			$("#project-name").val(project.name);
+			$flowchart.myflowchart('setData',project.flowDefinition);
+		});
+	},
+	new:function(){
+		$flowchart.removeData("id");
+		$("#project-name").val("New project");
+		$flowchart.myflowchart('setData',{});
+
 	}
 };
 
 (function($){
-	$(document).ready(app.start);
+	$(document).ready(function(){
+		$.widget("custom.myflowchart",$.flowchart.flowchart,myflowchart());
+
+		app.OperatorsCtrl.list(function(operatorNames){
+			$.each(operatorNames,function(idx,operatorName){
+				app.OperatorsCtrl.get(operatorName,function(operatorData){
+					dataTypes[operatorName] = operatorData;
+					if (idx == operatorNames.length - 1){
+						$.each(dataTypes,function(el){
+							$("#toolbox").append('<div class="draggable_op" data-type="'+el+'">'+dataTypes[el].properties.title+'</div>');
+						});
+						app.start();
+					}
+				});
+			});
+		});
+		
+		
+	});
 })(jQuery);

@@ -12,6 +12,17 @@
     "jquery-ui": "^1.12.1",
     "bootstrap-css-only": "^3.3.7"
   },
+  "exportsOverride": {
+    "bootstrap-css-only": {
+      "../fonts": "fonts/*",
+      ".": "css"
+    },
+    "jquery-ui":{
+      ".":"jquery-ui.js",
+      "css":"themes/smoothness/*",
+      "css/images":"themes/smoothness/images/*"
+    }
+  }, 
   "name": "data-mashup",
   "version": "0.0.0",
   "author": "anonymous node/sails user",
