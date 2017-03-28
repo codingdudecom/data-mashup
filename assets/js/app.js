@@ -57,7 +57,7 @@ var app = {
 			self.new();
 		});
 	},
-	save:function(){
+	save:function(next){
 		var self = this;
 		var data = $flowchart.myflowchart('getData');
 		var projectName = $("#project-name").val();
@@ -66,6 +66,7 @@ var app = {
 			$flowchart.data("id",project.id);
 			$("#project-list [data-id='"+project.id+"']").text(projectName);
 			self.initProjectList();
+			if (next) next();
 		});
 	},
 	load:function(id){
@@ -81,6 +82,14 @@ var app = {
 		$("#project-name").val("New project");
 		$flowchart.myflowchart('setData',{});
 
+	},
+	execute:function(){
+		var self = this;
+		self.save(function(){
+			app.ProjectsCtrl.execute($flowchart.data("id"),function(){
+				console.log("execution complete");
+			});
+		});
 	}
 };
 

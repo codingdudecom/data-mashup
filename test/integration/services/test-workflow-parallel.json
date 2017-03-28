@@ -1,0 +1,86 @@
+{
+  "operators": [
+    {
+      "properties": {
+        "title": "String",
+        "value": "text",
+        "outputs": {
+          "output_1": {
+            "label": "Output"
+          }
+        }
+      },
+      "left": "80",
+      "top": "40",
+      "id": "id1"
+    },
+    {
+      "properties": {
+        "title": "Number",
+        "value": "0",
+        "outputs": {
+          "output_1": {
+            "label": "Output"
+          }
+        }
+      },
+      "left": "120",
+      "top": "140",
+      "id": "id2"
+    },
+    {
+      "properties": {
+        "title": "console-log",
+        "inputs": {
+          "input": {
+            "label": "Input"
+          }
+        },
+        "outputs": {
+          "mainOutput": {
+            "label": "Output"
+          }
+        }
+      },
+      "left": "340",
+      "top": "60",
+      "id": "id3"
+    },
+    {
+      "properties": {
+        "title": "console-log",
+        "inputs": {
+          "input": {
+            "label": "Input"
+          }
+        },
+        "outputs": {
+          "mainOutput": {
+            "label": "Output"
+          }
+        }
+      },
+      "left": "340",
+      "top": "180",
+      "id": "id4"
+    }
+  ],
+  "links": [
+    {
+      "fromOperator": "0",
+      "fromConnector": "output_1",
+      "fromSubConnector": "0",
+      "toOperator": "2",
+      "toConnector": "input",
+      "toSubConnector": "0"
+    },
+    {
+      "fromOperator": "1",
+      "fromConnector": "output_1",
+      "fromSubConnector": "0",
+      "toOperator": "3",
+      "toConnector": "input",
+      "toSubConnector": "0"
+    }
+  ]
+}

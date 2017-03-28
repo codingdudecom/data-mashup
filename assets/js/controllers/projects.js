@@ -11,5 +11,8 @@ app.ProjectsCtrl = {
 	},
 	list:function(next){
 		$.getJSON("/project",next);
+	},
+	execute:function(id,next){
+		$.getJSON("/project/execute",{id:id},next);
 	}
 }

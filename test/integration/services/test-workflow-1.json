@@ -1,0 +1,46 @@
+{
+    "operators": [
+      {
+        "properties": {
+          "title": "String",
+          "value": "text",
+          "outputs": {
+            "output_1": {
+              "label": "Output"
+            }
+          }
+        },
+        "left": "280",
+        "top": "160",
+        "id": "id1"
+      },
+      {
+        "properties": {
+          "title": "console-log",
+          "inputs": {
+            "input": {
+              "label": "Input"
+            }
+          },
+          "outputs": {
+            "mainOutput": {
+              "label": "Output"
+            }
+          }
+        },
+        "left": "520",
+        "top": "140",
+        "id": "id2"
+      }
+    ],
+    "links": [
+      {
+        "fromOperator": "0",
+        "fromConnector": "output_1",
+        "fromSubConnector": "0",
+        "toOperator": "1",
+        "toConnector": "input",
+        "toSubConnector": "0"
+      }
+    ]
+}

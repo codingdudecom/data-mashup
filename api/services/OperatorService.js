@@ -8,7 +8,8 @@ module.exports = {
 	getOperatorData:function(operatorName){
 		var self = this;
 		var data = null;
-		if (this.getDirectories(sails.config.paths.operators).includes(operatorName)){
+		var modules = this.getDirectories(sails.config.paths.operators);
+		if (modules.indexOf(operatorName) >= 0){
 			var module = this.getOperatorModule(operatorName);
 			var params = this.getParamNames(module.process);
 			data = {
