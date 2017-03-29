@@ -2,13 +2,103 @@ var assert = require('assert');
 var fs = require('fs');
 var workflow1 = JSON.parse(fs.readFileSync('test/integration/services/test-workflow-1.json', 'utf8'));
 var workflow2 = JSON.parse(fs.readFileSync('test/integration/services/test-workflow-parallel.json', 'utf8'));
+var workflow3 = JSON.parse(fs.readFileSync('test/integration/services/test-workflow-double-concat.json', 'utf8'));
 
 describe('WorkflowService',function(){
 	describe("#createTasksHierarchy",function(){
 		it('should find root node(s)',function(done){
-			var tasks = WorkflowService.createTasksHierarchy(workflow1);
-			assert.equal(Object.keys(tasks).length,1,'workflow1 should only have one root');
+			var executionList = WorkflowService.createTasksHierarchy(workflow1);
+			assert.equal(executionList[0],0,'workflow1 should 0 as its root');
 			done();
 		});
+
+		it('should find root node(s)',function(done){
+			var executionList = WorkflowService.createTasksHierarchy(workflow3);
+			console.log(executionList);
+			_.each(executionList,function(idx){
+				console.log(workflow3.operators[idx].properties.title);
+			});
+			assert.equal(executionList[0],1,'workflow3 should only have one root');
+			done();
+		});
+
+		it('should find node(s) dependencies',function(done){
+			var executionList = WorkflowService.createTasksHierarchy(workflow3);
+			
+			_.each(executionList,function(idx){
+				var deps = WorkflowService.getDependencies(workflow3,idx);
+				console.log(workflow3.operators[idx].properties.title+" <= "+deps);
+				if (idx == 0){
+					assert.equal(deps.length,2,'workflow3 concat node should have 2 dependencies');
+				}
+			});
+			
+			done();
+		});
+
+		it ('should create valid script',function(done){
+			var script = WorkflowService.createExecutionScript(workflow3);
+			console.log(script);
+			eval(script);
+			done();
+		});
+
+		it ('should create valid script',function(done){
+var result_1;
+var result_3;
+var result_0;
+var result_4;
+var result_5;
+var result_6;
+var Step = require('step');
+Step(function() {
+    var self = this;
+    OperatorService.getOperatorModule('String').process("text1", function(err, output) {
+        if (err) throw err;
+        result_1 = output;
+        self(undefined, output);
+    });
+	}, function() {
+	    var self = this;
+	    OperatorService.getOperatorModule('Number').process("0", function(err, output) {
+	        if (err) throw err;
+	        result_3 = output;
+	        self(undefined, output);
+	    });
+	}, function() {
+	    var self = this;
+	    OperatorService.getOperatorModule('concat').process(result_1, result_3, function(err, output) {
+	        if (err) throw err;
+
+	        console.log(output);
+	        result_0 = output;
+	        self(undefined, output);
+	    });
+	}, function() {
+	    var self = this;
+	    OperatorService.getOperatorModule('String').process("text2", function(err, output) {
+	        if (err) throw err;
+	        result_4 = output;
+	        self(undefined, output);
+	    });
+	}, function() {
+	    var self = this;
+	    OperatorService.getOperatorModule('concat').process(result_0, result_4, function(err, output) {
+	        if (err) throw err;
+	        result_5 = output;
+	        self(undefined, output);
+	    });
+	}, function() {
+	    var self = this;
+	    OperatorService.getOperatorModule('console-log').process(result_5, function(err, output) {
+	        if (err) throw err;
+	        result_6 = output;
+	        self(undefined, output);
+	    });
+	})
+
+			done();
+		});
+
 	})
 })

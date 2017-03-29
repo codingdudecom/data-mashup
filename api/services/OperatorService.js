@@ -36,6 +36,13 @@ module.exports = {
 		return data;
 	},
 	getOperatorModule:function(operatorName){
+		if (operatorName == 'String' || operatorName == 'Number'){
+			return {
+				process:function(input,next){
+					next(undefined,input);
+				}
+			}
+		}
 		return require(sails.config.paths.operators+"/"+operatorName);
 	},
 	getDirectories:function (srcpath) {

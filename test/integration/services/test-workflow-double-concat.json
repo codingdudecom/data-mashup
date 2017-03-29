@@ -1,0 +1,161 @@
+{
+    "operators": [
+      {
+        "properties": {
+          "title": "concat",
+          "inputs": {
+            "input1": {
+              "label": "Input1"
+            },
+            "input2": {
+              "label": "Input2"
+            }
+          },
+          "outputs": {
+            "mainOutput": {
+              "label": "Output"
+            }
+          }
+        },
+        "left": "480",
+        "top": "180",
+        "id": "id1"
+      },
+      {
+        "properties": {
+          "title": "String",
+          "value": "text1",
+          "outputs": {
+            "output_1": {
+              "label": "Output"
+            }
+          }
+        },
+        "left": "160",
+        "top": "140",
+        "id": "id2"
+      },
+      {
+        "properties": {
+          "title": "Object",
+          "outputs": {
+            "output_1": {
+              "label": "Output"
+            }
+          }
+        },
+        "left": "160",
+        "top": "-160",
+        "id": "id3"
+      },
+      {
+        "properties": {
+          "title": "Number",
+          "value": "0",
+          "outputs": {
+            "output_1": {
+              "label": "Output"
+            }
+          }
+        },
+        "left": "180",
+        "top": "280",
+        "id": "id4"
+      },
+      {
+        "properties": {
+          "title": "String",
+          "value": "text2",
+          "outputs": {
+            "output_1": {
+              "label": "Output"
+            }
+          }
+        },
+        "left": "480",
+        "top": "320",
+        "id": "id5"
+      },
+      {
+        "properties": {
+          "title": "concat",
+          "inputs": {
+            "input1": {
+              "label": "Input1"
+            },
+            "input2": {
+              "label": "Input2"
+            }
+          },
+          "outputs": {
+            "mainOutput": {
+              "label": "Output"
+            }
+          }
+        },
+        "left": "720",
+        "top": "200",
+        "id": "id6"
+      },
+      {
+        "properties": {
+          "title": "console-log",
+          "inputs": {
+            "input": {
+              "label": "Input"
+            }
+          },
+          "outputs": {
+            "mainOutput": {
+              "label": "Output"
+            }
+          }
+        },
+        "left": "960",
+        "top": "220",
+        "id": "id7"
+      }
+    ],
+    "links": [
+      {
+        "fromOperator": "1",
+        "fromConnector": "output_1",
+        "fromSubConnector": "0",
+        "toOperator": "0",
+        "toConnector": "input1",
+        "toSubConnector": "0"
+      },
+      {
+        "fromOperator": "3",
+        "fromConnector": "output_1",
+        "fromSubConnector": "0",
+        "toOperator": "0",
+        "toConnector": "input2",
+        "toSubConnector": "0"
+      },
+      {
+        "fromOperator": "0",
+        "fromConnector": "mainOutput",
+        "fromSubConnector": "0",
+        "toOperator": "5",
+        "toConnector": "input1",
+        "toSubConnector": "0"
+      },
+      {
+        "fromOperator": "4",
+        "fromConnector": "output_1",
+        "fromSubConnector": "0",
+        "toOperator": "5",
+        "toConnector": "input2",
+        "toSubConnector": "0"
+      },
+      {
+        "fromOperator": "5",
+        "fromConnector": "mainOutput",
+        "fromSubConnector": "0",
+        "toOperator": "6",
+        "toConnector": "input",
+        "toSubConnector": "0"
+      }
+    ]
+  }
