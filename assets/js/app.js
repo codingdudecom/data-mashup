@@ -90,6 +90,9 @@ var app = {
 				console.log("execution complete");
 			});
 		});
+	},
+	deleteSelected:function(){
+		$flowchart.myflowchart('deleteSelected');
 	}
 };
 
@@ -109,6 +112,12 @@ var app = {
 					}
 				});
 			});
+		});
+
+		$('html').keyup(function(e){
+		    if(e.keyCode == 46) {
+		        app.deleteSelected();
+		    }
 		});
 		
 		

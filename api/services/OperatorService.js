@@ -36,7 +36,7 @@ module.exports = {
 		return data;
 	},
 	getOperatorModule:function(operatorName){
-		if (operatorName == 'String' || operatorName == 'Number'){
+		if (operatorName == 'String' || operatorName == 'Number' || operatorName == 'Object'){
 			return {
 				process:function(input,next){
 					next(undefined,input);

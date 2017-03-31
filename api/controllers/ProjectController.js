@@ -13,7 +13,14 @@ module.exports = {
 			.exec(function(err, project){
 				if (err) res.negotiate(err);
 
-				res.json(project);
+				var script = WorkflowService.createExecutionScript(project.flowDefinition);
+				// console.log(script);
+				try{
+					eval(script);
+				}catch(e){
+					res.negotiate(e);
+				}
+				res.json("ok");
 			});
 	}
 };

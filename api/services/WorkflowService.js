@@ -12,12 +12,19 @@ module.exports = {
 	},
 	getDependencies:function(flowDefinition,nodeIdx){
 		var dependencies = [];
+		var order = [];
 		_.each(flowDefinition.links,function(link){
 			if (link.toOperator == nodeIdx){
 				dependencies.push(link.fromOperator);
+				order.push(Object.keys(flowDefinition.operators[nodeIdx].properties.inputs).indexOf(link.toConnector));
 			}
 		});
-		return dependencies;
+		var deps = [];
+		var indexedTest = dependencies.map(function(e,i){return {ind: order[i], val: e}});
+		indexedTest.sort(function(x, y){return x.val > y.val ? 1 : x.val == y.val ? 0 : -1});
+		deps = indexedTest.map(function(e){return e.val});
+		// console.log(flowDefinition.operators[nodeIdx].properties.title +" <= "+deps);
+		return deps;
 	},
 	createExecutionScript:function(flowDefinition){
 		var steps = [];

@@ -1,0 +1,16 @@
+{
+  "name": "page-downloader",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ../../../node_modules/mocha/bin/mocha test/*.test.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "follow-redirects": "^1.2.3",
+    "request": "^2.81.0",
+    "url": "^0.11.0"
+  }
+}

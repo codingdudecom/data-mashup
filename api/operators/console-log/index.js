@@ -1,6 +1,10 @@
 module.exports = {
 	process:function(input,next){
-		console.log(">>>>>>>>"+JSON.stringify(arguments));
+		if (typeof(input) == 'object'){
+			console.log(require('util').inspect(input));
+		} else {
+			console.log(input);
+		}
 		next(undefined,input);
 	}
 }
