@@ -58,11 +58,26 @@
 
 .bg-dark{
 	background-color:@menu-color;
-
+	li{
+		margin:8px 0;
+	}
 	&,& a{
 		color:contrast(@menu-color);
+		&.btn-default{
+			color:@menu-color;
+		}
 	}
 
+	.btn-group{
+		width:100%;
+		& a,& button{
+			outline:none;
+		}
+		& a{
+			width:80%;
+			text-align:left;
+		}
+	}
 	& .nav > li > a:hover, & .nav > li > a:focus{
 		background-color:darken(@menu-color,20%);
 	}

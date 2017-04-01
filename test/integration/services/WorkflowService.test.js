@@ -44,59 +44,8 @@ describe('WorkflowService',function(){
 		});
 
 		it ('should create valid script',function(done){
-var result_1;
-var result_3;
-var result_0;
-var result_4;
-var result_5;
-var result_6;
-var Step = require('step');
-Step(function() {
-    var self = this;
-    OperatorService.getOperatorModule('String').process("text1", function(err, output) {
-        if (err) throw err;
-        result_1 = output;
-        self(undefined, output);
-    });
-	}, function() {
-	    var self = this;
-	    OperatorService.getOperatorModule('Number').process("0", function(err, output) {
-	        if (err) throw err;
-	        result_3 = output;
-	        self(undefined, output);
-	    });
-	}, function() {
-	    var self = this;
-	    OperatorService.getOperatorModule('concat').process(result_1, result_3, function(err, output) {
-	        if (err) throw err;
 
-	        console.log(output);
-	        result_0 = output;
-	        self(undefined, output);
-	    });
-	}, function() {
-	    var self = this;
-	    OperatorService.getOperatorModule('String').process("text2", function(err, output) {
-	        if (err) throw err;
-	        result_4 = output;
-	        self(undefined, output);
-	    });
-	}, function() {
-	    var self = this;
-	    OperatorService.getOperatorModule('concat').process(result_0, result_4, function(err, output) {
-	        if (err) throw err;
-	        result_5 = output;
-	        self(undefined, output);
-	    });
-	}, function() {
-	    var self = this;
-	    OperatorService.getOperatorModule('console-log').process(result_5, function(err, output) {
-	        if (err) throw err;
-	        result_6 = output;
-	        self(undefined, output);
-	    });
-	})
-
+			
 			done();
 		});
 

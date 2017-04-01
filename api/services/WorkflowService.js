@@ -29,6 +29,80 @@ module.exports = {
 	createExecutionScript:function(flowDefinition){
 		var steps = [];
 		var executionList = WorkflowService.createTasksHierarchy(flowDefinition);
+		var forks = [];
+		var script = "";
+		_.each(executionList,function(idx){
+			script += "var result_"+idx+";";
+			var op = OperatorService.getOperatorModule(flowDefinition.operators[idx].properties.title);
+			var deps = WorkflowService.getDependencies(flowDefinition,idx);
+			if (deps.length == 0){
+				steps.push(
+					"function(flow){"+
+					"_evt.emit('NODE_START',"+idx+");"+
+					"var self = this;"+
+					"OperatorService.getOperatorModule('"+flowDefinition.operators[idx].properties.title+"')"+
+					".process("+JSON.stringify(flowDefinition.operators[idx].properties.value)+","+
+					"function(err,output){if (err) throw err;result_"+idx+" = output;_evt.emit('NODE_FINISHED',"+idx+");flow.next();});"+
+					"}"
+				);
+			} else {
+				var inputs = "";
+				_.each(deps,function(dep,depIdx){
+					inputs += "result_"+dep;
+					if (depIdx != deps.length-1){
+						inputs += ",";
+					}
+				});
+
+				if (flowDefinition.operators[idx].properties.title == 'foreach'){
+					forks.push("result_"+idx);
+					steps.push(
+						"function(flow){"+
+						"_evt.emit('NODE_START',"+idx+");"+
+						"var self = this;"+
+						"flow.fork('_output',"+inputs+");"+
+						"},"+
+						"function(_output,flow){"+
+						"var self = this;"+
+						"result_"+idx+" = _output;_evt.emit('NODE_FINISHED',"+idx+");"+
+						"flow.next();"+
+						"}"
+					);
+				}else{
+					
+
+					steps.push(
+						
+						"function(flow){"+
+						"_evt.emit('NODE_START',"+idx+");"+
+						//"if (typeof(_output)!='undefined') console.log(_output);"+
+						"var self = this;"+
+						"OperatorService.getOperatorModule('"+flowDefinition.operators[idx].properties.title+"')"+
+						".process("+inputs+","+
+						"function(err,output){if (err) throw err;result_"+idx+" = output;_evt.emit('NODE_FINISHED',"+idx+");flow.next();});"+
+						"}"
+					);
+					// if (forks.indexOf(inputs)>=0){
+					// 	forks.push("result_"+idx);
+					// }
+				}
+			}
+		});
+
+		script += "var flow = require('node-control-flow');flow.start({},[";
+		_.each(steps,function(step,idx){
+			script += step;
+			if (idx != steps.length - 1){
+				script += ",";
+			}
+		});
+		script += "],function(){console.log('Done!')})";
+
+		return script;		
+	},
+	createExecutionScript1:function(flowDefinition){
+		var steps = [];
+		var executionList = WorkflowService.createTasksHierarchy(flowDefinition);
 		
 		var script = "";
 		_.each(executionList,function(idx){
@@ -52,14 +126,44 @@ module.exports = {
 						inputs += ",";
 					}
 				})
-				steps.push(
-					"function(){"+
-					"var self = this;"+
-					"OperatorService.getOperatorModule('"+flowDefinition.operators[idx].properties.title+"')"+
-					".process("+inputs+","+
-					"function(err,output){if (err) throw err;result_"+idx+" = output;self(undefined, output);});"+
-					"}"
-				);
+
+				if (flowDefinition.operators[idx].properties.title == 'foreach'){
+					steps.push(
+						"function(){"+
+						"var self = this;"+
+						"var group = this.group();"+
+						"_.each("+inputs+",function(el){"+
+						"OperatorService.getOperatorModule('"+flowDefinition.operators[idx].properties.title+"')"+
+						".process(el,"+
+						"group())"+
+						//"function(err,output){if (err) throw err;result_"+idx+" = output;(self.parallel())(undefined, output);});"+
+						"})"+
+						"}"+
+
+						",function(err,vals){"+
+						"var self = this;"+
+						// "console.log(vals);"+
+						// "console.log('-------');"+
+						"_.each(vals,function(val,_idx){"+
+						// "console.log(val+'/'+_idx);"+
+						"result_"+idx+" = val;"+
+						"self(undefined,val);"+
+						"})"+
+						"}"
+
+
+					);
+				}else{
+					steps.push(
+						"function(){"+
+						// "console.log("+inputs+");"+
+						"var self = this;"+
+						"OperatorService.getOperatorModule('"+flowDefinition.operators[idx].properties.title+"')"+
+						".process("+inputs+","+
+						"function(err,output){if (err) throw err;result_"+idx+" = output;self(undefined, output);});"+
+						"}"
+					);
+				}
 			}
 		});
 

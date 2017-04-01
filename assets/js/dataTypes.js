@@ -37,5 +37,20 @@ dataTypes = {
             }
           }
         }
+      },
+  "FOREACH":{
+        properties: {
+          title: 'foreach',
+          inputs: {
+              objectOrArray:{
+                label:'Object or array'
+            }
+          },
+          outputs: {
+            output_1: {
+              label: 'Output',
+            }
+          }
+        }
       }
 };

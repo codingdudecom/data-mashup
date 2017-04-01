@@ -36,9 +36,12 @@ module.exports = {
 		return data;
 	},
 	getOperatorModule:function(operatorName){
-		if (operatorName == 'String' || operatorName == 'Number' || operatorName == 'Object'){
+		if (operatorName == 'String' || operatorName == 'Number' || operatorName == 'Object' || operatorName == 'foreach'){
 			return {
 				process:function(input,next){
+					if (operatorName == 'foreach'){
+						console.log(operatorName+JSON.stringify(input));
+					}
 					next(undefined,input);
 				}
 			}

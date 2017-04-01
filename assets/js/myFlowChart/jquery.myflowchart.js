@@ -25,6 +25,12 @@ function myflowchart(){
                 return;
             }
 		},
+        addClass: function (operatorId,className){
+            this.data.operators[operatorId].internal.els.operator.addClass(className);
+        },
+        removeClass: function (operatorId,className){
+            this.data.operators[operatorId].internal.els.operator.removeClass(className);
+        },	
         getData: function () {
             // var keys = ['operators', 'links'];
             // var data = {};
@@ -46,6 +52,8 @@ function myflowchart(){
             return data;
         },		
 		_getOperatorFullElement:function(operatorData){
+				//operatorData = jQuery.extend({},operatorData);
+				//operatorData.properties = jQuery.extend({},operatorData.properties);
 				var self = this;
 				var infos = this.getOperatorCompleteData(operatorData);
 

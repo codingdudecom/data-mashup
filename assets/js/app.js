@@ -9,6 +9,28 @@ var app = {
 		$flowchart.myflowchart({
 		});
 
+		io.socket.get('/project/connect', function responseFromServer (body, response) {
+		  console.log("The server responded with status " + response.statusCode + " and said: ", body);
+		});
+
+		io.socket.on('CLIENT_NODE_START',function(idx){
+			$flowchart.myflowchart("removeClass",idx,"node-started");
+			$flowchart.myflowchart("removeClass",idx,"node-finished");
+			$flowchart.myflowchart("addClass",idx,"node-started");
+		});
+
+
+		io.socket.on('CLIENT_NODE_FINISHED',function(idx){
+			$flowchart.myflowchart("removeClass",idx,"node-started");
+			$flowchart.myflowchart("removeClass",idx,"node-finished");
+			$flowchart.myflowchart("addClass",idx,"node-finished");
+
+			setTimeout(function(){
+				$flowchart.myflowchart("removeClass",idx,"node-started");
+				$flowchart.myflowchart("removeClass",idx,"node-finished");
+			},2000);
+		});
+
 		var $draggable_ops = $(".draggable_op");
 		$draggable_ops.draggable({
 			cursor: "move",
@@ -19,7 +41,7 @@ var app = {
 	        zIndex: 1000,
 	        helper:function(e){
 	        	var $this = $(this);
-          		var data = dataTypes[$this.data("type")];
+          		var data = $.extend(true,{},dataTypes[$this.data("type")]);
           		
 	        	return $flowchart.myflowchart('getOperatorElement', data);
 	        },
@@ -30,7 +52,7 @@ var app = {
                 var relativeTop = elOffset.top - flowchartOffset.top;
                 
 	        	var $this = $(this);
-          		var data = $.extend({},dataTypes[$this.data("type")]);
+          		var data = $.extend(true,{},dataTypes[$this.data("type")]);
                 data.left = relativeLeft;
                 data.top = relativeTop;   
                 data.id = "id"+idx++;
@@ -44,12 +66,17 @@ var app = {
 		app.ProjectsCtrl.list(function(projects){
 			$.each(projects,function(idx,project){
 				$("#project-list")
-					.append("<li><a data-id='"+project.id+"' href='#'>"+project.name+"</a></li>");
+					.append("<li><div class='btn-group'><button data-id='"+project.id+"' class='project-delete btn btn-danger glyphicon glyphicon-remove'></button><a data-id='"+project.id+"' href='#' class='btn btn-default' >"+project.name+"</a></div></li>");
 			});
 			$("#project-list a")
 				.click(function(evt){
 					evt.preventDefault();
 					self.load($(evt.currentTarget).data("id"));
+				});
+			$("#project-list .project-delete")
+				.click(function(evt){
+					evt.preventDefault();
+					self.deleteProject($(evt.currentTarget).data("id"));
 				});
 		});
 		$("#project-new").click(function(evt) {
@@ -90,6 +117,12 @@ var app = {
 				console.log("execution complete");
 			});
 		});
+	},
+	deleteProject:function(id){
+		var self = this;
+		app.ProjectsCtrl.delete(id,function(){
+				self.initProjectList();
+			});
 	},
 	deleteSelected:function(){
 		$flowchart.myflowchart('deleteSelected');

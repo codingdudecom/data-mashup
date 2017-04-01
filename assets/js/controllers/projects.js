@@ -14,5 +14,12 @@ app.ProjectsCtrl = {
 	},
 	execute:function(id,next){
 		$.getJSON("/project/execute",{id:id},next);
+	},
+	delete:function(id,next){
+		jQuery.ajax({
+	        type: "DELETE",
+	        url: "/project/"+id,
+	        success: next
+        });
 	}
 }
