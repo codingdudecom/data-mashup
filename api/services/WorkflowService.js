@@ -21,9 +21,8 @@ module.exports = {
 		});
 		var deps = [];
 		var indexedTest = dependencies.map(function(e,i){return {ind: order[i], val: e}});
-		indexedTest.sort(function(x, y){return x.val > y.val ? 1 : x.val == y.val ? 0 : -1});
+		indexedTest.sort(function(x, y){return x.ind > y.ind ? 1 : x.ind == y.ind ? 0 : -1});
 		deps = indexedTest.map(function(e){return e.val});
-		// console.log(flowDefinition.operators[nodeIdx].properties.title +" <= "+deps);
 		return deps;
 	},
 	createExecutionScript:function(flowDefinition){

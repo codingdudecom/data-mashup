@@ -14,10 +14,20 @@
 			<div class="panel-heading"><input id="project-name"/>
 				<button class='btn btn-success' onclick="app.save()">Save</button>
 				<button class='btn btn-info' onclick="app.execute()">Execute</button>
+				<button class="btn btn-warning pull-right" onclick="app.toggleConsole()">Toggle console</button>
 			</div>
 			<div class="panel-body">
 				<div id="flowchart" class="fill"></div>
 			</div>
 		</div>
+	</div>
+</div>
+<div class="console panel panel-primary">
+	<div class="panel-heading">Console</div>
+	<div class="panel-body">
+	<pre></pre>
+
+	<button class="btn btn-default pull-right" onclick="app.clearConsole()">Clear</button>
+	<button class="btn btn-default pull-right" onclick="app.toggleConsole()">Close</button>
 	</div>
 </div>

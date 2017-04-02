@@ -19,7 +19,8 @@ module.exports = {
 		          },
 		          outputs: {
 		          	mainOutput:{
-		          		label:"Output"
+		          		label:"Output (:i)",
+		          		multiple:true
 		          	}
 		          }
 		        }

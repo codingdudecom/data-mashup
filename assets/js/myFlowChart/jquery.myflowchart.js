@@ -32,25 +32,26 @@ function myflowchart(){
             this.data.operators[operatorId].internal.els.operator.removeClass(className);
         },	
         getData: function () {
-            // var keys = ['operators', 'links'];
-            // var data = {};
-            // data.operators = $.extend(true, {}, this.data.operators);
-            // data.links = $.extend(true, {}, this.data.links);
-            // for (var keyI in keys) {
-            //     if (keys.hasOwnProperty(keyI)) {
-            //         var key = keys[keyI];
-            //         for (var objId in data[key]) {
-            //             if (data[key].hasOwnProperty(objId)) {
-            //                 delete data[key][objId].internal;
-            //             }
-            //         }
-            //     }
-            // }
-            // data.operatorTypes = this.data.operatorTypes;
-            console.log(this.getOperatorData(0));
             var data = this._super();
+            $.each(data.links,function(idx,link){
+            	link.fromOperator = parseInt(link.fromOperator);
+            	link.fromSubConnector = parseInt(link.fromSubConnector);
+            	link.toOperator = parseInt(link.toOperator);
+            	link.toSubConnector = parseInt(link.toSubConnector);
+            });
+            console.log(data);
             return data;
         },		
+        _autoCreateSubConnector: function (operator, connector, connectorType, subConnector) {
+            var connectorInfos = this.data.operators[operator].properties[connectorType][connector];
+            if (connectorInfos.multiple) {
+                var fromFullElement = this.data.operators[operator].internal.els;
+                var nbFromConnectors = this.data.operators[operator].internal.els.connectors[connector].length;
+                for (var i = nbFromConnectors; i < parseInt(subConnector) + 2; i++) {
+                    this._createSubConnector(connector, connectorInfos, fromFullElement);
+                }
+            }
+        },
 		_getOperatorFullElement:function(operatorData){
 				//operatorData = jQuery.extend({},operatorData);
 				//operatorData.properties = jQuery.extend({},operatorData.properties);

@@ -1,10 +1,14 @@
 module.exports = {
 	process:function(input,next){
 		if (typeof(input) == 'object'){
-			console.log(require('util').inspect(input));
+			this.log(require('util').inspect(input));
 		} else {
-			console.log(input);
+			this.log(input);
 		}
 		next(undefined,input);
+	},
+	log:function(msg){
+		console.log(msg);
+		sails.sockets.broadcast("projectStatus","CLIENT_CONSOLE",msg);
 	}
 }

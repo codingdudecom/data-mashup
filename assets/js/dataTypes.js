@@ -7,7 +7,8 @@ dataTypes = {
           },
           outputs: {
             output_1: {
-              label: 'Output',
+              label: 'Output (:i)',
+              multiple:true,
             }
           }
         }

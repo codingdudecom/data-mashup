@@ -2,12 +2,15 @@ var idx = 1;
 var $flowchart = $('#flowchart');
 var app = {
 	start:function(){
+		var self = this;
 		var projectName = "New project";
 		$("#project-name").val(projectName);
 		this.initProjectList();
 
 		$flowchart.myflowchart({
 		});
+
+		$(".console").hide();
 
 		io.socket.get('/project/connect', function responseFromServer (body, response) {
 		  console.log("The server responded with status " + response.statusCode + " and said: ", body);
@@ -30,6 +33,11 @@ var app = {
 				$flowchart.myflowchart("removeClass",idx,"node-finished");
 			},2000);
 		});
+
+		io.socket.on('CLIENT_CONSOLE',function(msg){
+			self.log(msg);
+		});
+
 
 		var $draggable_ops = $(".draggable_op");
 		$draggable_ops.draggable({
@@ -60,6 +68,16 @@ var app = {
 	        }
 		});
 	},
+	clearConsole:function(){
+		$(".console pre").text("");
+	},
+	toggleConsole:function(){
+		$(".console").toggle();
+	},
+	log:function(msg){
+		console.log(msg);
+		$(".console pre").text($(".console pre").text()+msg+"\n");
+	},
 	initProjectList:function(){
 		var self = this;
 		$("#project-list").html("");
@@ -87,6 +105,7 @@ var app = {
 	save:function(next){
 		var self = this;
 		var data = $flowchart.myflowchart('getData');
+		console.log(data.links);
 		var projectName = $("#project-name").val();
 		
 		app.ProjectsCtrl.save($flowchart.data("id"),projectName,data,function(project){
