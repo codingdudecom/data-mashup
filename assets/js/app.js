@@ -7,8 +7,19 @@ var app = {
 		$("#project-name").val(projectName);
 		this.initProjectList();
 
+		this.setupPanZoom();
+
 		$flowchart.myflowchart({
+			onOperatorMouseOver:function(){
+				$flowchart.panzoom('disable');
+				return true;
+			},
+			onOperatorMouseOut:function(){
+				$flowchart.panzoom('enable');
+				return true;
+			}
 		});
+
 
 		$(".console").hide();
 
@@ -67,6 +78,32 @@ var app = {
 	        	$flowchart.myflowchart('addOperator', data);
 	        }
 		});
+	},
+	setupPanZoom:function(){
+		var cx = $flowchart.width() / 2;
+		    	var cy = $flowchart.height() / 2;
+		    	$flowchart.panzoom();
+		    	 // Centering panzoom
+		    	 var $container = $flowchart.parent();
+		    	$flowchart.panzoom('pan', -cx + $container.width() / 2, -cy + $container.height() / 2);
+		// Panzoom zoom handling...
+		    var possibleZooms = [];
+		    var zoom = 0.2;
+		    do{ possibleZooms.push(zoom)}
+		    while ((zoom+=0.05)<3);
+
+		    var currentZoom = 2;
+		    $container.on('mousewheel.focal', function( e ) {
+		        e.preventDefault();
+		        var delta = (e.delta || e.originalEvent.wheelDelta) || e.originalEvent.detail;
+		        var zoomOut = delta ? delta < 0 : e.originalEvent.deltaY > 0;
+		        currentZoom = Math.max(0, Math.min(possibleZooms.length - 1, (currentZoom + (zoomOut * 2 - 1))));
+		        $flowchart.myflowchart('setPositionRatio', possibleZooms[currentZoom]);
+		        $flowchart.panzoom('zoom', possibleZooms[currentZoom], {
+		            animate: false,
+		            focal: e
+		        });
+		    });
 	},
 	clearConsole:function(){
 		$(".console pre").text("");

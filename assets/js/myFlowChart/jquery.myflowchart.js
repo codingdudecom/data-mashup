@@ -9,7 +9,33 @@ function myflowchart(){
                     self.dblClickOperator($(this).data('operator_id'));
                 }
             });
+
+            this.objs.layers.operators.on('mouseover', '.flowchart-operator', function (e) {
+                self._operatorMouseOver($(this).data('operator_id'));
+            });
+
+            this.objs.layers.operators.on('mouseout', '.flowchart-operator', function (e) {
+                self._operatorMouseOut($(this).data('operator_id'));
+            });            
 		},
+        _operatorMouseOver: function (operatorId) {
+            if (!this.options.onOperatorMouseOver(operatorId)) {
+                return;
+            }
+            this._addHoverClassOperator(operatorId);
+        },	
+		_addHoverClassOperator: function (operatorId) {
+            this.data.operators[operatorId].internal.els.operator.addClass('hover');
+        },
+        _removeHoverClassOperators: function () {
+            this.objs.layers.operators.find('.flowchart-operator').removeClass('hover');
+        },        
+        _operatorMouseOut: function (operatorId) {
+            if (!this.options.onOperatorMouseOut(operatorId)) {
+                return;
+            }
+            this._removeHoverClassOperators();
+        },        
 		callbackEvent: function(name, params) {
             var cbName = 'on' + name.charAt(0).toUpperCase() + name.slice(1);
             var ret = this.options[cbName].apply(this, params);
@@ -216,8 +242,13 @@ function myflowchart(){
 		options:{
 			onOperatorDblClick:function(operatorId){
 				return true;
-			}
-
+			},
+	        onOperatorMouseOver: function (operatorId) {
+	            return true;
+	        },
+            onOperatorMouseOut: function (operatorId) {
+                return true;
+            }	        
 		}
 	};
 }
