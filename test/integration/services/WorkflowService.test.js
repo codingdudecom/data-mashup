@@ -46,83 +46,45 @@ describe('WorkflowService',function(){
 		it ('should create valid script',function(done){
 			this.timeout(150000);
 var _evt = {emit:function(evt,idx){console.log(evt+":"+idx)}};
-var result_0;
-var result_2;
+
 var result_3;
-var result_7;
-var result_8;
-var result_5;
+var result_2;
+var result_0;
 var result_1;
 var result_4;
-var result_9;
-var result_6;
 var flow = require('node-control-flow');
 flow.start({}, [function(flow) {
-
-    _evt.emit('NODE_START', 0);
-
-    var self = this;
-    OperatorService.getOperatorModule('String').process("http://pearlpencil.deviantart.com/art/Basic-Painting-Brushes-Photoshop-320684401", function(err, output) {
-        if (err) throw err;
-        result_0 = output;
-        _evt.emit('NODE_FINISHED', 0);
-        flow.next();
-    });
-}, function(flow) {
-    _evt.emit('NODE_START', 2);
-    console.log(result_0);
-    var self = this;
-    OperatorService.getOperatorModule('page-downloader').process(result_0, function(err, output) {
-        if (err) throw err;
-        result_2 = output;
-        _evt.emit('NODE_FINISHED', 2);
-        flow.next();
-    });
-    result_2 = "<html><title>this is a title</title></html>";
-    flow.next();
-}, function(flow) {
     _evt.emit('NODE_START', 3);
     var self = this;
-    OperatorService.getOperatorModule('Object').process({
-        "title": "title",
-        "lnk": "a[class=\"torpedo-thumb-link\"]"
-    }, function(err, output) {
+    OperatorService.getOperatorModule('Number').process("0", function(err, output) {
         if (err) throw err;
         result_3 = output;
         _evt.emit('NODE_FINISHED', 3);
         flow.next();
     });
 }, function(flow) {
-    _evt.emit('NODE_START', 7);
+    _evt.emit('NODE_START', 2);
     var self = this;
-    OperatorService.getOperatorModule('html-extract').process(result_2, result_3, function(err, output) {
+    OperatorService.getOperatorModule('String').process("field1", function(err, output) {
         if (err) throw err;
-        result_7 = output;
-        _evt.emit('NODE_FINISHED', 7);
+        result_2 = output;
+        _evt.emit('NODE_FINISHED', 2);
         flow.next();
     });
 }, function(flow) {
-    _evt.emit('NODE_START', 8);
+    _evt.emit('NODE_START', 0);
     var self = this;
-    OperatorService.getOperatorModule('String').process("title.text", function(err, output) {
+    OperatorService.getOperatorModule('Object').process(undefined, function(err, output) {
         if (err) throw err;
-        result_8 = output;
-        _evt.emit('NODE_FINISHED', 8);
-        flow.next();
-    });
-}, function(flow) {
-    _evt.emit('NODE_START', 5);
-    var self = this;
-    OperatorService.getOperatorModule('object-extract').process(result_7, result_8, function(err, output) {
-        if (err) throw err;
-        result_5 = output;
-        _evt.emit('NODE_FINISHED', 5);
+        result_0 = output;
+        _evt.emit('NODE_FINISHED', 0);
         flow.next();
     });
 }, function(flow) {
     _evt.emit('NODE_START', 1);
     var self = this;
-    OperatorService.getOperatorModule('console-log').process(result_5, function(err, output) {
+    console.log(result_0)
+    OperatorService.getOperatorModule('set-object-field').process(result_0, result_2, result_3, function(err, output) {
         if (err) throw err;
         result_1 = output;
         _evt.emit('NODE_FINISHED', 1);
@@ -131,35 +93,15 @@ flow.start({}, [function(flow) {
 }, function(flow) {
     _evt.emit('NODE_START', 4);
     var self = this;
-    OperatorService.getOperatorModule('String').process("lnk", function(err, output) {
+    OperatorService.getOperatorModule('console-log').process(result_1, function(err, output) {
         if (err) throw err;
         result_4 = output;
         _evt.emit('NODE_FINISHED', 4);
         flow.next();
     });
-}, function(flow) {
-    _evt.emit('NODE_START', 9);
-    var self = this;
-    console.log(">>>> "+result_4);
-    OperatorService.getOperatorModule('object-extract').process(result_4, result_7, function(err, output) {
-        if (err) throw err;
-        result_9 = output;
-        _evt.emit('NODE_FINISHED', 9);
-        flow.next();
-    });
-}, function(flow) {
-    _evt.emit('NODE_START', 6);
-    var self = this;
-    OperatorService.getOperatorModule('console-log').process(result_9, function(err, output) {
-        if (err) throw err;
-        result_6 = output;
-        _evt.emit('NODE_FINISHED', 6);
-        flow.next();
-    });
 }], function() {
     console.log('Done!')
 })
-
 
 			done();
 		});
