@@ -40,9 +40,7 @@ module.exports = {
 		if (operatorName == 'String' || operatorName == 'Number' || operatorName == 'Object' || operatorName == 'foreach'){
 			return {
 				process:function(input,next){
-					if (operatorName == 'foreach'){
-						console.log(operatorName+JSON.stringify(input));
-					}
+
 					next(undefined,input);
 				}
 			}

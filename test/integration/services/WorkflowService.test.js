@@ -46,57 +46,61 @@ describe('WorkflowService',function(){
 		it ('should create valid script',function(done){
 			this.timeout(150000);
 var _evt = {emit:function(evt,idx){console.log(evt+":"+idx)}};
-
 var result_3;
-var result_2;
-var result_0;
-var result_1;
 var result_4;
+var result_1;
+var result_0;
 var flow = require('node-control-flow');
-flow.start({}, [function(flow) {
+
+flow.start({}, [
+    function(flow){
+        flow.intercept(function(err, context, interceptCallback){
+            console.error("--->"+err); // Log error 
+            interceptCallback();
+        });
+    },
+    function(flow) {
     _evt.emit('NODE_START', 3);
     var self = this;
-    OperatorService.getOperatorModule('Number').process("0", function(err, output) {
-        if (err) throw err;
+    OperatorService.getOperatorModule('Object').process({
+        "field": "1"
+    }, function(err, output) {
+        if (err) throw (err);
         result_3 = output;
         _evt.emit('NODE_FINISHED', 3);
         flow.next();
     });
 }, function(flow) {
-    _evt.emit('NODE_START', 2);
+    _evt.emit('NODE_START', 4);
     var self = this;
-    OperatorService.getOperatorModule('String').process("field1", function(err, output) {
-        if (err) throw err;
-        result_2 = output;
-        _evt.emit('NODE_FINISHED', 2);
-        flow.next();
-    });
-}, function(flow) {
-    _evt.emit('NODE_START', 0);
-    var self = this;
-    OperatorService.getOperatorModule('Object').process(undefined, function(err, output) {
-        if (err) throw err;
-        result_0 = output;
-        _evt.emit('NODE_FINISHED', 0);
+    OperatorService.getOperatorModule('String').process("text", function(err, output) {
+        if (err) throw (err);
+        result_4 = output;
+        _evt.emit('NODE_FINISHED', 4);
         flow.next();
     });
 }, function(flow) {
     _evt.emit('NODE_START', 1);
     var self = this;
-    console.log(result_0)
-    OperatorService.getOperatorModule('set-object-field').process(result_0, result_2, result_3, function(err, output) {
-        if (err) throw err;
+    try{
+    OperatorService.getOperatorModule('set-object-field').process(result_3, result_4, function(err, output) {
+
+        if (err) {return flow.error(err);}
         result_1 = output;
         _evt.emit('NODE_FINISHED', 1);
         flow.next();
     });
+}catch(e){
+    return flow.error(err);
+}
+
 }, function(flow) {
-    _evt.emit('NODE_START', 4);
+    _evt.emit('NODE_START', 0);
     var self = this;
     OperatorService.getOperatorModule('console-log').process(result_1, function(err, output) {
-        if (err) throw err;
-        result_4 = output;
-        _evt.emit('NODE_FINISHED', 4);
+        if (err) throw (err);
+        result_0 = output;
+        _evt.emit('NODE_FINISHED', 0);
         flow.next();
     });
 }], function() {

@@ -41,7 +41,7 @@ module.exports = {
 					"var self = this;"+
 					"OperatorService.getOperatorModule('"+flowDefinition.operators[idx].properties.title+"')"+
 					".process("+JSON.stringify(flowDefinition.operators[idx].properties.value)+","+
-					"function(err,output){if (err) throw err;result_"+idx+" = output;_evt.emit('NODE_FINISHED',"+idx+");flow.next();});"+
+					"function(err,output){if (err) throw(err);result_"+idx+" = output;_evt.emit('NODE_FINISHED',"+idx+");flow.next();});"+
 					"}"
 				);
 			} else {
@@ -78,7 +78,7 @@ module.exports = {
 						"var self = this;"+
 						"OperatorService.getOperatorModule('"+flowDefinition.operators[idx].properties.title+"')"+
 						".process("+inputs+","+
-						"function(err,output){if (err) throw err;result_"+idx+" = output;_evt.emit('NODE_FINISHED',"+idx+");flow.next();});"+
+						"function(err,output){if (err) throw(err);result_"+idx+" = output;_evt.emit('NODE_FINISHED',"+idx+");flow.next();});"+
 						"}"
 					);
 					// if (forks.indexOf(inputs)>=0){
@@ -114,7 +114,7 @@ module.exports = {
 					"var self = this;"+
 					"OperatorService.getOperatorModule('"+flowDefinition.operators[idx].properties.title+"')"+
 					".process("+JSON.stringify(flowDefinition.operators[idx].properties.value)+","+
-					"function(err,output){if (err) throw err;result_"+idx+" = output;self(undefined, output);});"+
+					"function(err,output){if (err) throw(err);result_"+idx+" = output;self(undefined, output);});"+
 					"}"
 				);
 			} else {
@@ -135,7 +135,7 @@ module.exports = {
 						"OperatorService.getOperatorModule('"+flowDefinition.operators[idx].properties.title+"')"+
 						".process(el,"+
 						"group())"+
-						//"function(err,output){if (err) throw err;result_"+idx+" = output;(self.parallel())(undefined, output);});"+
+						//"function(err,output){if (err) throw(err);result_"+idx+" = output;(self.parallel())(undefined, output);});"+
 						"})"+
 						"}"+
 
@@ -159,7 +159,7 @@ module.exports = {
 						"var self = this;"+
 						"OperatorService.getOperatorModule('"+flowDefinition.operators[idx].properties.title+"')"+
 						".process("+inputs+","+
-						"function(err,output){if (err) throw err;result_"+idx+" = output;self(undefined, output);});"+
+						"function(err,output){if (err) throw(err);result_"+idx+" = output;self(undefined, output);});"+
 						"}"
 					);
 				}
