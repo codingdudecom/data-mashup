@@ -3,7 +3,10 @@ var sinon = require('sinon');
 var fs = require('fs');
 var sandbox;
 
-before(function(done){
+
+describe('OperatorService', function() {
+
+beforeEach(function(done){
   sandbox = sinon.sandbox.create();
   sandbox.stub(fs,'readdirSync').callsFake(function(srcpath){
     console.log(srcpath);
@@ -15,7 +18,10 @@ before(function(done){
   done();
 })
 
-describe('OperatorService', function() {
+afterEach(function(done){
+  sandbox.restore();
+  done();
+})
 
   describe('#getOperators()', function() {
     it('should return list of operators from the api/operators folder', function (done) {
