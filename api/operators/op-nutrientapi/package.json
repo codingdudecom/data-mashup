@@ -1,0 +1,14 @@
+{
+  "name": "op-nutrientapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ../../../node_modules/mocha/bin/mocha test/*.test.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "nutrient-data-laboratory": "^1.4.1"
+  }
+}
