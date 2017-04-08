@@ -20,6 +20,7 @@ var app = {
 			}
 		});
 
+		this.initFlowchartCanvas();
 
 		$(".console").hide();
 
@@ -78,6 +79,10 @@ var app = {
 	        	$flowchart.myflowchart('addOperator', data);
 	        }
 		});
+	},
+	initFlowchartCanvas:function(){
+
+		$("#flowchart-canvas").height($(window).height() - $("#toolbox").height() -50+"px");
 	},
 	setupPanZoom:function(){
 		var cx = $flowchart.width() / 2;
@@ -142,7 +147,6 @@ var app = {
 	save:function(next){
 		var self = this;
 		var data = $flowchart.myflowchart('getData');
-		console.log(data.links);
 		var projectName = $("#project-name").val();
 		
 		app.ProjectsCtrl.save($flowchart.data("id"),projectName,data,function(project){
@@ -158,6 +162,9 @@ var app = {
 			$flowchart.data("id",project.id);
 			$("#project-name").val(project.name);
 			$flowchart.myflowchart('setData',project.flowDefinition);
+			$.each(project.flowDefinition.operators,function(idx,el){
+				id = Math.max(id,parseInt(el.id.replace("id",""))+1);
+			});
 		});
 	},
 	new:function(){

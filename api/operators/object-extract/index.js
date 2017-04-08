@@ -3,7 +3,7 @@ module.exports = {
 		var self = this;
 		// console.log(">>>>"+require('util').inspect(object));
 		if (!object) return next("Object is null");
-debugger;
+
 		if (typeof(field) == "string"){
 			if (field.indexOf(".")>=0){
 				next(undefined,this.deep_value(object,field));

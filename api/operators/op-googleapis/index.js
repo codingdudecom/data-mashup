@@ -4,7 +4,7 @@ module.exports = {
 	process:function(input,next){
 
 		if (!input.auth) input.auth = process.env.GOOGLE_API_KEY;
-		if (!input.cx) input.cx = process.env.GOOGLE_SEARCH_ENGINE_ID;
+		//if (!input.cx) input.cx = process.env.GOOGLE_SEARCH_ENGINE_ID;
 
 
 		var version = input.version?input.version:'v1';
@@ -12,7 +12,12 @@ module.exports = {
 
 		var endpoint = this.deep_value(api,input.endpoint);
 
-		(endpoint)(input,function(err,body){
+		delete input.api;
+		delete input.endpoint;
+		//delete input.cx;
+
+		var req = (endpoint)(input,function(err,body){
+			if (err) throw(err);
 			next(err,body);
 		});
 	},

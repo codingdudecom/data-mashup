@@ -35,7 +35,38 @@ function myflowchart(){
                 return;
             }
             this._removeHoverClassOperators();
-        },        
+        },
+        _deleteOperator:function(operatorId, replace){
+			var self = this;
+			for (var linkId in this.data.links) {
+				var from = this.data.links[linkId].fromOperator;
+				var to = this.data.links[linkId].toOperator;
+				this.data.links[linkId].fromOperatorId = this.data.operators[from].id;
+				this.data.links[linkId].toOperatorId = this.data.operators[to].id;
+			}
+			this._super(operatorId, replace);
+			this._rewireLinks();
+        },
+        _rewireLinks:function(){
+        	var self = this;
+        	var operators = [];
+        	for (var operatorIdx in this.data.operators) {
+        		operators.push(this.data.operators[operatorIdx]);
+        	}
+        	this.data.operators = operators;
+        	
+        	for (var linkId in this.data.links) {
+        		this.data.links[linkId].fromOperator = self._operatorIndexById(this.data.links[linkId].fromOperatorId);
+        		this.data.links[linkId].toOperator = self._operatorIndexById(this.data.links[linkId].toOperatorId);
+        	}
+        },
+        _operatorIndexById:function(id){
+        	for (var operatorIdx in this.data.operators) {
+        		if (this.data.operators[operatorIdx].id == id){
+        			return operatorIdx;
+        		}
+        	}
+        },
 		callbackEvent: function(name, params) {
             var cbName = 'on' + name.charAt(0).toUpperCase() + name.slice(1);
             var ret = this.options[cbName].apply(this, params);
@@ -248,7 +279,7 @@ function myflowchart(){
 	        },
             onOperatorMouseOut: function (operatorId) {
                 return true;
-            }	        
+            }       
 		}
 	};
 }
